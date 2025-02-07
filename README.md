@@ -6,7 +6,7 @@
 $ forge install Layr-Labs/eigenlayer-contracts@testnet-holesky
 ```
 ```shell
-$ forge install Vectorized/solday
+$ forge install Vectorized/solady
 ```
 
 3. **Run**

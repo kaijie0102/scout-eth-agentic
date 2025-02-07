@@ -11,7 +11,7 @@ contract ScoutServiceManager {
 
     // attributes
     address public immutable avsDirectory; // manage operators
-    mapping(address => bool) public operatorRegistered;
+    mapping(address => bool) public operatorsRegistered;
     uint32 public latestTaskNum;
     mapping(uint32 => bytes32) public allTasksHashes;
     mapping(address => mapping(uint32 => bytes)) public allTaskResponses;
@@ -42,14 +42,14 @@ contract ScoutServiceManager {
         ISignatureUtils.SignatureWithSaltAndExpiry memory operatorSignature
     ) external {
         IAVSDirectory(avsDirectory).registerOperatorToAVS(operator, operatorSignature);
-        operatorRegistered[operator] = true;
+        operatorsRegistered[operator] = true;
     }
     // Deregistering operators
     function deregisterOperatorFromAVS(address operator) external onlyOperator {
         // make sure sender is operator
         require(msg.sender==operator);
         IAVSDirectory(avsDirectory).deregisterOperatorFromAVS(operator);
-        operatorRegistered[operator] = false;
+        operatorsRegistered[operator] = false;
     }
     // Create Task
     // emit is to log events

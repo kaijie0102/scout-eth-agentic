@@ -1,3 +1,23 @@
+## Quick install
+1. **[Ensure you have foundry installed](https://ethereum-blockchain-developer.com/2022-06-nft-truffle-hardhat-foundry/14-foundry-setup/)**
+
+2. **Installing some cruical libraries into local (run in terminal)**
+```shell
+$ forge install Layr-Labs/eigenlayer-contracts@testnet-holesky
+```
+```shell
+$ forge install Vectorized/solday
+```
+
+3. **Run**
+- Fork mainnet and get test addresses and keys
+```shell
+$ anvil --chain-id 31337 --fork-url https:eth.drpc.org
+```
+```shell
+$ forge script script/DeployServiceManager.sol --rpc-url http://localhost:8545 --broadcast
+```
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**

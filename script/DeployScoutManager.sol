@@ -4,9 +4,9 @@ pragma solidity ^0.8.26;
 
 import {Script} from "forge-std/Script.sol";
 import {ScoutServiceManager} from "../src/ScoutServiceManager.sol";
-import {IDelegationManager} from "eigenlayer-contracts/src/contracts/interfaces/IDelegationManager.sol";
-import {AVSDirectory} from "eigenlayer-contracts/src/contracts/core/AVSDirectory.sol";
-import {ISignatureUtils} from "eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol";
+import {IDelegationManager} from "lib/eigenlayer-contracts/src/contracts/interfaces/IDelegationManager.sol";
+import {AVSDirectory} from "lib/eigenlayer-contracts/src/contracts/core/AVSDirectory.sol";
+import {ISignatureUtils} from "lib/eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol";
 
 contract DeployScoutServiceManager is Script {
 

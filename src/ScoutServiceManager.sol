@@ -3,7 +3,7 @@ pragma solidity ^0.8.26;
 
 import {ISignatureUtils} from "lib/eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol"; // methods for signing
 import {IAVSDirectory} from "lib/eigenlayer-contracts/src/contracts/interfaces/IAVSDirectory.sol"; // manage operators
-import {ECDSA} from "lib/solady/utils/ECDSA.sol"; // algo for signing
+import {ECDSA} from "lib/solady/src/utils/ECDSA.sol"; // algo for signing
 import {console} from "forge-std/console.sol";
 
 contract ScoutServiceManager {

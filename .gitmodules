@@ -7,3 +7,6 @@
 	path = lib/eigenlayer-contracts
 	url = https://github.com/Layr-Labs/eigenlayer-contracts
 	branch = testnet-holesky
+[submodule "lib/solady"]
+	path = lib/solady
+	url = https://github.com/Vectorized/solady

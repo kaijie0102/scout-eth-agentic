@@ -46,6 +46,37 @@ contract DeployScoutServiceManager is Script {
         // delegationManager.registerAsOperator(operator, 0, "");
         vm.stopBroadcast();
 
-        
+        // Register operator to AVS
+        AVSDirectory avsDirectory = AVSDirectory(AVS_DIRECTORY);
+        bytes32 salt = keccak256(abi.encodePacked(block.timestamp, operator)); // concat timestamp n operator
+        uint256 expiry = block.timestamp + 1 hours; // signature expiry
+
+        // create hash for signing
+        bytes32 operatorRegistrationDigestHash = avsDirectory 
+            .calculateOperatorAVSRegistrationDigestHash(
+                operator,
+                address(serviceManager),
+                salt,
+                expiry
+            );
+
+        // sign and bundle into 1
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(
+            vm.envUint("OPERATOR_PRIVATE_KEY"),
+            operatorRegistrationDigestHash
+        );
+        bytes memory signature = abi.encodePacked(r, s, v);
+
+        // passed to service manager during registration  
+        ISignatureUtils.SignatureWithSaltAndExpiry
+            memory operatorSignature = ISignatureUtils.SignatureWithSaltAndExpiry({
+                    signature: signature,
+                    salt: salt,
+                    expiry: expiry
+                });
+
+        vm.startBroadcast(operator);
+        serviceManager.registerOperatorToAVS(operator, operatorSignature);
+        vm.stopBroadcast();
     }
 }

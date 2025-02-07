@@ -10,12 +10,13 @@ $ forge install Vectorized/solady
 ```
 
 3. **Run**
-- Fork mainnet and get test addresses and keys
+- Terminal 1: Fork mainnet and get test addresses and keys
 ```shell
 $ anvil --chain-id 31337 --fork-url https:eth.drpc.org
 ```
+Terminal 2: Deploy contract
 ```shell
-$ forge script script/DeployServiceManager.sol --rpc-url http://localhost:8545 --broadcast
+$ forge script script/DeployScoutManager.sol --rpc-url http://localhost:8545 --broadcast
 ```
 
 ## Foundry

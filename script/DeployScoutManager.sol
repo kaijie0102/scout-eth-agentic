@@ -7,17 +7,16 @@ import {ScoutServiceManager} from "../src/ScoutServiceManager.sol";
 import {IDelegationManager} from "lib/eigenlayer-contracts/src/contracts/interfaces/IDelegationManager.sol";
 import {AVSDirectory} from "lib/eigenlayer-contracts/src/contracts/core/AVSDirectory.sol";
 import {ISignatureUtils} from "lib/eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol";
+import "forge-std/Test.sol";
 
 contract DeployScoutServiceManager is Script {
 
     // Eigen Core Contracts
-    address internal constant AVS_DIRECTORY = 0x135DDa560e946695d6f155dACaFC6f1F25C1F5AF; 
-    address internal constant DELEGATION_MANAGER = 0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A;
-
-    
+    address internal constant AVS_DIRECTORY = 0x055733000064333CaDDbC92763c58BF0192fFeBf;
+    address internal constant DELEGATION_MANAGER = 0xA44151489861Fe9e3055d95adC98FbD462B948e7;
     address internal deployer;
     address internal operator;
-    ScoutServiceManager serviceManager;
+    ScoutServiceManager scoutServiceManager;
 
     // setup
     function setUp() public virtual {
@@ -28,19 +27,12 @@ contract DeployScoutServiceManager is Script {
     }
 
     // Deploy contract
-    function run() public {
+    function run() public virtual {
         vm.startBroadcast(deployer);
-        serviceManager = new ScoutServiceManager(AVS_DIRECTORY);
+        scoutServiceManager = new ScoutServiceManager(AVS_DIRECTORY);
         vm.stopBroadcast();
 
-        // Register operator to eigenlayer
         IDelegationManager delegationManager = IDelegationManager(DELEGATION_MANAGER);
-        // IDelegationManager.OperatorDetails memory operatorDetails = IDelegationManager.OperatorDetails({
-        //     __deprecated_earningsReceiver: operator,
-        //     delgationApprover: address(0), // no need for now 
-        //     stakerOptOutWindowBlocks: 0 // no need for now 
-        // });
-
         vm.startBroadcast(operator);
         delegationManager.registerAsOperator(operator, 0, "");
         vm.stopBroadcast();
@@ -54,7 +46,7 @@ contract DeployScoutServiceManager is Script {
         bytes32 operatorRegistrationDigestHash = avsDirectory 
             .calculateOperatorAVSRegistrationDigestHash(
                 operator,
-                address(serviceManager),
+                address(scoutServiceManager),
                 salt,
                 expiry
             );
@@ -75,7 +67,7 @@ contract DeployScoutServiceManager is Script {
                 });
 
         vm.startBroadcast(operator);
-        serviceManager.registerOperatorToAVS(operator, operatorSignature);
+        scoutServiceManager.registerOperatorToAVS(operator, operatorSignature);
         vm.stopBroadcast();
     }
 }

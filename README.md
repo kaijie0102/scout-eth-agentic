@@ -12,7 +12,7 @@ $ forge install Vectorized/solady
 3. **Run**
 - Terminal 1: Fork mainnet and get test addresses and keys
 ```shell
-$ anvil --chain-id 31337 --fork-url https:eth.drpc.org
+$ anvil --chain-id 31337 --fork-url wss://holesky.drpc.org
 ```
 Terminal 2: Deploy contract
 ```shell

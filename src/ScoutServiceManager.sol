@@ -12,7 +12,18 @@ contract ScoutServiceManager {
     // attributes
     address public immutable avsDirectory; // manage operators
     mapping(address => bool) public operatorRegistered;
+    // uint32 public latestTaskNum;
+    // mapping(uint32 => bytes32) public allTasksHashes;
+    // mapping(address => mapping(uint32 => bytes)) public allTaskResponses
 
+    // events
+    // event NewTaskCreated(uint32 indexed taskIndex, Task task);
+    // event TaskResponded(uint32 indexed taskIndex, Task task, bool isSafe, address operator);
+
+    struct Task {
+        string contents;
+        uint32 taskCreatedBlock;
+    }
     
     constructor(address _avsDirectory) {
         avsDirectory = _avsDirectory;
@@ -40,6 +51,15 @@ contract ScoutServiceManager {
         IAVSDirectory(avsDirectory).deregisterOperatorFromAVS(operator);
         operatorRegistered[operator] = false;
     }
+    // Create Task
+    // emit is to log events
+    // memory are for temporary variable
+
+
+    // Respond to Task - call agentKit our defi agent
+    // check task is valid and in contract
+    // check task has been responded to
+    // check that response has been signed by a valid operator
 
 
 }

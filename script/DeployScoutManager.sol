@@ -27,5 +27,25 @@ contract DeployScoutServiceManager is Script {
         vm.label(operator, "Operator");
     }
 
-    
+    // Deploy contract
+    function run() public {
+        vm.startBroadcast(deployer);
+        serviceManager = new ScoutServiceManager(AVS_DIRECTORY);
+        vm.stopBroadcast();
+
+        // Register operator to eigenlayer
+        IDelegationManager delegationManager = IDelegationManager(DELEGATION_MANAGER);
+        // IDelegationManager.OperatorDetails memory operatorDetails = IDelegationManager.OperatorDetails({
+        //     __deprecated_earningsReceiver: operator,
+        //     delgationApprover: address(0), // no need for now 
+        //     stakerOptOutWindowBlocks: 0 // no need for now 
+        // });
+
+        vm.startBroadcast(operator);
+        delegationManager.registerAsOperator(operatorDetails, 0, "");
+        // delegationManager.registerAsOperator(operator, 0, "");
+        vm.stopBroadcast();
+
+        
+    }
 }

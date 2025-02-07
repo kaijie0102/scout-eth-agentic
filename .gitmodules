@@ -8,3 +8,5 @@
 [submodule "lib/solady"]
 	path = lib/solady
 	url = https://github.com/Vectorized/solady
+[submodule "scout-agent/agentkit"]
+	path = scout-agent/agentkit

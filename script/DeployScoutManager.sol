@@ -42,8 +42,7 @@ contract DeployScoutServiceManager is Script {
         // });
 
         vm.startBroadcast(operator);
-        delegationManager.registerAsOperator(operatorDetails, 0, "");
-        // delegationManager.registerAsOperator(operator, 0, "");
+        delegationManager.registerAsOperator(operator, 0, "");
         vm.stopBroadcast();
 
         // Register operator to AVS

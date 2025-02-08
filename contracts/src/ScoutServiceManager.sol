@@ -68,10 +68,40 @@ contract ScoutServiceManager {
         return newTask;
     }
 
-    // Respond to Task - call agentKit our defi agent
-    // check task is valid and in contract
-    // check task has been responded to
-    // check that response has been signed by a valid operator
+    // Respond to Task
+    function respondToTask(
+        Task calldata task,
+        uint32 referenceTaskIndex,
+        bool isSafe,
+        bytes memory signature
+    ) external onlyOperator {
+        // check task is valid and in contract
+        require(
+            keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex],
+            "supplied task does not match the one recorded in the contract"
+        );
+        // check task has been responded to
+        require(
+            allTaskResponses[msg.sender][referenceTaskIndex].length == 0,
+            "Operator has already responded to the task"
+        );
+
+        // check that response has been signed by a valid operator
+        bytes32 messageHash = keccak256(
+            abi.encodePacked(isSafe, task.contents)
+        );
+        bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
+        if (ethSignedMessageHash.recover(signature) != msg.sender) {
+            revert("Invalid Signature");
+        }
+
+        // Respond to Task - call agentKit our defi agent
+        // updating the storage with task responses
+        allTaskResponses[msg.sender][referenceTaskIndex] = signature;
+
+        // emitting event
+        emit TaskResponded(referenceTaskIndex, task, isSafe, msg.sender);
+    }
 
 
 }

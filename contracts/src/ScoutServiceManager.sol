@@ -52,9 +52,21 @@ contract ScoutServiceManager {
         operatorsRegistered[operator] = false;
     }
     // Create Task
-    // emit is to log events
-    // memory are for temporary variable
+    function createNewTask(
+        string memory contents
+    ) external returns (Task memory) {
+        // create a new task struct
+        Task memory newTask;
+        newTask.contents = contents;
+        newTask.taskCreatedBlock = uint32(block.number);
 
+        // store hash of task onchain, emit event, and increase taskNum
+        allTaskHashes[latestTaskNum] = keccak256(abi.encode(newTask));
+        emit NewTaskCreated(latestTaskNum, newTask);
+        latestTaskNum = latestTaskNum + 1;
+
+        return newTask;
+    }
 
     // Respond to Task - call agentKit our defi agent
     // check task is valid and in contract

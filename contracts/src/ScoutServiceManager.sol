@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.26;
 
-import {ISignatureUtils} from "lib/eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol"; // methods for signing
-import {IAVSDirectory} from "lib/eigenlayer-contracts/src/contracts/interfaces/IAVSDirectory.sol"; // manage operators
-import {ECDSA} from "lib/solady/src/utils/ECDSA.sol"; // algo for signing
+import {ISignatureUtils} from "eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol"; // methods for signing
+import {IAVSDirectory} from "eigenlayer-contracts/src/contracts/interfaces/IAVSDirectory.sol"; // manage operators
+import {ECDSA} from "solady/src/utils/ECDSA.sol"; // algo for signing
 import {console} from "forge-std/console.sol";
 
 contract ScoutServiceManager {
@@ -72,7 +72,7 @@ contract ScoutServiceManager {
     function respondToTask(
         Task calldata task,
         uint32 referenceTaskIndex,
-        bool isSafe,
+        string memory response,
         bytes memory signature
     ) external onlyOperator {
         // check task is valid and in contract
@@ -88,7 +88,7 @@ contract ScoutServiceManager {
 
         // check that response has been signed by a valid operator
         bytes32 messageHash = keccak256(
-            abi.encodePacked(isSafe, task.contents)
+            abi.encodePacked(response, task.contents)
         );
         bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
         if (ethSignedMessageHash.recover(signature) != msg.sender) {
@@ -100,7 +100,7 @@ contract ScoutServiceManager {
         allTaskResponses[msg.sender][referenceTaskIndex] = signature;
 
         // emitting event
-        emit TaskResponded(referenceTaskIndex, task, isSafe, msg.sender);
+        emit TaskResponded(referenceTaskIndex, task, response, msg.sender);
     }
 
 

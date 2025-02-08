@@ -3,7 +3,7 @@ pragma solidity ^0.8.26;
 
 import {ISignatureUtils} from "eigenlayer-contracts/src/contracts/interfaces/ISignatureUtils.sol"; // methods for signing
 import {IAVSDirectory} from "eigenlayer-contracts/src/contracts/interfaces/IAVSDirectory.sol"; // manage operators
-import {ECDSA} from "solady/src/utils/ECDSA.sol"; // algo for signing
+import {ECDSA} from "solady/utils/ECDSA.sol"; // algo for signing
 import {console} from "forge-std/console.sol";
 
 contract ScoutServiceManager {
@@ -18,7 +18,7 @@ contract ScoutServiceManager {
 
     // events
     event NewTaskCreated(uint32 indexed taskIndex, Task task);
-    event TaskResponded(uint32 indexed taskIndex, Task task, bool isSafe, address operator);
+    event TaskResponded(uint32 indexed taskIndex, Task task, string actionTaken, address operator);
 
     struct Task {
         string contents;
@@ -32,7 +32,7 @@ contract ScoutServiceManager {
     // modifier
     modifier onlyOperator() {
         // ensure that only operators can use
-        console.log("hi");
+        require(operatorsRegistered[msg.sender], "Operator not registered");
         _;
     }
 
@@ -61,7 +61,7 @@ contract ScoutServiceManager {
         newTask.taskCreatedBlock = uint32(block.number);
 
         // store hash of task onchain, emit event, and increase taskNum
-        allTaskHashes[latestTaskNum] = keccak256(abi.encode(newTask));
+        allTasksHashes[latestTaskNum] = keccak256(abi.encode(newTask));
         emit NewTaskCreated(latestTaskNum, newTask);
         latestTaskNum = latestTaskNum + 1;
 
@@ -77,7 +77,7 @@ contract ScoutServiceManager {
     ) external onlyOperator {
         // check task is valid and in contract
         require(
-            keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex],
+            keccak256(abi.encode(task)) == allTasksHashes[referenceTaskIndex],
             "supplied task does not match the one recorded in the contract"
         );
         // check task has been responded to

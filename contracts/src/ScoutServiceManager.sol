@@ -72,7 +72,7 @@ contract ScoutServiceManager {
     function respondToTask(
         Task calldata task,
         uint32 referenceTaskIndex,
-        string memory response,
+        string memory actionTaken,
         bytes memory signature
     ) external onlyOperator {
         // check task is valid and in contract
@@ -88,7 +88,7 @@ contract ScoutServiceManager {
 
         // check that response has been signed by a valid operator
         bytes32 messageHash = keccak256(
-            abi.encodePacked(response, task.contents)
+            abi.encodePacked(actionTaken, task.contents)
         );
         bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
         if (ethSignedMessageHash.recover(signature) != msg.sender) {
@@ -100,7 +100,7 @@ contract ScoutServiceManager {
         allTaskResponses[msg.sender][referenceTaskIndex] = signature;
 
         // emitting event
-        emit TaskResponded(referenceTaskIndex, task, response, msg.sender);
+        emit TaskResponded(referenceTaskIndex, task, actionTaken, msg.sender);
     }
 
 

@@ -12,7 +12,7 @@ $ forge install Vectorized/solady
 3. **Run**
 - Terminal 1: Fork from specific block number, using infura as rpc
 ```shell
-$ anvil --chain-id 31337 --fork-url https://holesky.infura.io/v3/1faa15d89b49436c92e2db024af24353 --fork-block-number 3312272
+$ anvil --chain-id 31337 --fork-url https://holesky.infura.io/v3/1faa15d89b49436c92e2db024af24353
 ```
 Terminal 2: Deploy contract (after every modification)
 ```shell

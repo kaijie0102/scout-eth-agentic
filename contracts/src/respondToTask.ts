@@ -43,8 +43,8 @@ async function respondToTask(
   try {
     let actionTaken = ""
     const response = ""
-    const {agent, config} = Chatbot.initializeAgent();
-    await runChatMode(agent,config) // run chat mode by default
+    const {agent, config} = await Chatbot.initializeAgent();
+    await Chatbot.runChatMode(agent,config) // run chat mode by default
 
     // let isSafe = true;
     // if (response.message.content.includes('unsafe')) {

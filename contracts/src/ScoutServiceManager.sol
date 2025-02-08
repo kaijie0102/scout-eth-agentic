@@ -55,6 +55,7 @@ contract ScoutServiceManager {
     function createNewTask(
         string memory contents
     ) external returns (Task memory) {
+
         // create a new task struct
         Task memory newTask;
         newTask.contents = contents;

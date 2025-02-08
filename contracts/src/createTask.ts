@@ -14,7 +14,7 @@ if (!process.env.PRIVATE_KEY) {
   
   // passing in signature of new task to interact with contracts
   const abi = parseAbi([
-    'function createNewTask(string memory contents) external returns ((string contents, uint32 taskCreatedBlock))'
+    'function createNewTask(string memory contents) external returns (string contents, uint32 taskCreatedBlock)'
   ]);
 
   async function main() {
@@ -39,11 +39,12 @@ if (!process.env.PRIVATE_KEY) {
       // simulate before actually sending
       const { request } = await publicClient.simulateContract({
         address: contractAddress,
-        abi,
+        abi: abi,
         functionName: 'createNewTask',
         args: ['Hello World'],
         account: account.address,
       });
+      console.log("Simulated Request:", request);
   
       // obtain hash using writeContract()
       const hash = await walletClient.writeContract(request);

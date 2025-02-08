@@ -4,6 +4,7 @@ import { anvil } from 'viem/chains';
 import 'dotenv';
 import { Task } from "./createTask";
 
+import * as Chatbot from "../../agentkit/typescript/examples/langchain-cdp-chatbot/chatbot"
 
 if (!process.env.OPERATOR_PRIVATE_KEY) {
   throw new Error('OPERATOR_PRIVATE_KEY not found in environment variables');
@@ -42,10 +43,8 @@ async function respondToTask(
   try {
     let actionTaken = ""
     const response = ""
-    // const response = await ollama.chat({
-    //   model: 'llama-guard3:1b',
-    //   messages: [{ role: 'user', 'content': task.contents }]
-    // })
+    const {agent, config} = Chatbot.initializeAgent();
+    await runChatMode(agent,config) // run chat mode by default
 
     // let isSafe = true;
     // if (response.message.content.includes('unsafe')) {
@@ -75,7 +74,7 @@ async function respondToTask(
 }
 
 async function main() {
-  const contractAddress = '0xb60971942E4528A811D24826768Bc91ad1383D21';
+  const contractAddress = '0x121f7e412A536D673DaB310F1448ce0e3843068a';
 
   const account = privateKeyToAccount(process.env.OPERATOR_PRIVATE_KEY as `0x${string}`);
 

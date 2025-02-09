@@ -44,7 +44,7 @@ async function respondToTask(
     let actionTaken = ""
     const response = ""
     const {agent, config, walletProvider} = await Chatbot.initializeAgent();
-    await Chatbot.runChatMode(agent,config,walletProvider) // run chat mode by default
+    await Chatbot.runChatMode(agent, config, walletProvider) // run chat mode by default
 
     // let isSafe = true;
     // if (response.message.content.includes('unsafe')) {
@@ -74,7 +74,7 @@ async function respondToTask(
 }
 
 async function main() {
-  const contractAddress = '0x121f7e412A536D673DaB310F1448ce0e3843068a';
+  const contractAddress = '0x6d055A4babb2A0d1B3Abb32937DB437210be6161';
 
   const account = privateKeyToAccount(process.env.OPERATOR_PRIVATE_KEY as `0x${string}`);
 

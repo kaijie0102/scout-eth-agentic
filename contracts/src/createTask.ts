@@ -18,7 +18,7 @@ if (!process.env.PRIVATE_KEY) {
   ]);
 
   async function main() {
-    const contractAddress = '0x121f7e412A536D673DaB310F1448ce0e3843068a'
+    const contractAddress = '0x6d055A4babb2A0d1B3Abb32937DB437210be6161'
   
     // casting for viem
     const account = privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`);

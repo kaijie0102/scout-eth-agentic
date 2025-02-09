@@ -14,10 +14,22 @@ $ forge install Vectorized/solady
 ```shell
 $ anvil --chain-id 31337 --fork-url https://holesky.infura.io/v3/1faa15d89b49436c92e2db024af24353
 ```
-Terminal 2: Deploy contract (after every modification)
+Terminal 2: Deploy contract
 ```shell
 $ cd contracts
 $ forge script script/DeployScoutManager.sol --rpc-url http://localhost:8545 --broadcast
+```
+
+Terminal 3: Listen for new tasks
+```shell
+$ cd contracts/src
+$ bun run respondToTask.ts
+```
+
+Terminal 4: Create new tasks
+```shell
+$ cd contracts/src
+$ bun run createTask.ts
 ```
 
 ## Foundry
